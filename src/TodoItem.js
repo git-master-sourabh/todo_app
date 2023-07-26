@@ -1,21 +1,28 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import {deleteTask, toggleTask} from './redux/actions';
 
-function TodoItem({task, onDelete, onToggle}){
-    const handleToggle = () => {
-        onToggle(task.id);
-    };
+function TodoItem({task, deleteTask, toggleTask}){
     return (
         <li>
             <label>
-            <input
-                type="checkbox"
-                checked={task.completed}
-                onChange={handleToggle}
-            />
-            <span className={task.completed ? 'completed' : ''}>{task.text}</span>
+                <input
+                    type="checkbox"
+                    checked={task.completed}
+                    onChange={() => toggleTask(task.id)}
+                />
+                <span className={task.completed ? 'completed' : ''}>{task.text}</span>
             </label>
-            <button onClick={() => onDelete(task.id)}>Delete</button>
+            <button onClick={() => deleteTask(task.id)}>Delete</button>
         </li>
     );
 }
-export default TodoItem;
+
+const mapDispatchToProps = {
+    deleteTask,
+    toggleTask,
+}
+
+export default connect(null, mapDispatchToProps)(TodoItem);
+
+// export default TodoItem;
